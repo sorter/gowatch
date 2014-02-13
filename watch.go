@@ -84,14 +84,12 @@ func main() {
                     panic(err)
                 }
                 respBody, err := ioutil.ReadAll(resp.Body)
-                //fmt.Println(string(respBody))
                 // determine remote commit hash, perform auth
                 rr := &RepoResponse{}
                 err = json.Unmarshal(respBody, &rr)
                 if err != nil {
                     panic(err)
                 }
-                fmt.Printf("local: %s\nremote: %s\n", localHash, rr.Commit.Sha)
                 if localHash != rr.Commit.Sha {
                     // issue a pull inside the local active directory
                     err = os.Chdir(active_dir.(string))
@@ -99,10 +97,12 @@ func main() {
                         panic(err)
                     }
                     var out bytes.Buffer
-                    pullCmd := exec.Command("git", "pull", "origin", "master")
+                    pullCmd := exec.Command("ssh-agent", "/bin/sh", "-c", "'ssh-add "+ home+"/.ssh/gowatch_id_rsa; git pull origin master'")
+                    fmt.Println(pullCmd)
                     pullCmd.Stdout = &out
                     err = pullCmd.Run()
                     if err != nil {
+                        fmt.Println(err)
                         panic(err) // err running git pull
                     }
                     fmt.Println(out.String())
