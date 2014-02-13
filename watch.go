@@ -35,7 +35,7 @@ type RepoResponse struct {
 func main() {
 
     home := os.Getenv("HOME")
-    confdir = := home + ".gowatch/"
+    confdir := home + ".gowatch/"
     repoFilePath := confdir + "repo_map.json"
     fileBuffer, err := ioutil.ReadFile(repoFilePath)
     GITHUB_HOST := "https://api.github.com/"
