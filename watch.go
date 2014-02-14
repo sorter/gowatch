@@ -78,6 +78,7 @@ func main() {
 
             repoPath := "repos/"+gitUser+"/"+repoName+"/branches/master"
             repoUrl := GITHUB_HOST + repoPath
+            fmt.Printf("repo url: %s\n", repoUrl)
 
             branchReq, err := http.NewRequest("GET", repoUrl, nil)
             if err != nil {
@@ -98,11 +99,12 @@ func main() {
             if localHash != rr.Commit.Sha {
                 // issue a pull inside the local active directory
                 err = os.Chdir(activeDir)
+                fmt.Printf("chdr(%s)\n", activeDir)
                 if err != nil {
                     panic(err)
                 }
                 var out bytes.Buffer
-                pullCmd := exec.Command("ssh-agent", "/bin/sh", "-c", "'ssh-add "+ home+"/.ssh/gowatch_id_rsa; git pull origin master'")
+                pullCmd := exec.Command("ssh-agent", "/bin/sh", "-c", "ssh-add "+ home+"/.ssh/gowatch_id_rsa; git pull origin master")
                 fmt.Println(pullCmd)
                 pullCmd.Stdout = &out
                 err = pullCmd.Run()
