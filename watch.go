@@ -32,12 +32,14 @@ type RepoResponse struct {
 
 func main() {
 
+    GITHUB_HOST := "https://api.github.com/"
+    gitUser := "easytag"
+
     home := os.Getenv("HOME")
     confdir := home + "/.gowatch/"
     repoFilePath := confdir + "repo_map.json"
     fileBuffer, err := ioutil.ReadFile(repoFilePath)
-    GITHUB_HOST := "https://api.github.com/"
-    gitUser := "easytag"
+
     token_path := confdir + "github_creds"
     gitToken, tokenErr := ioutil.ReadFile(token_path)
 
