@@ -6,8 +6,6 @@
     to a local active directory. If the remote commit hash mismatches the hash
     in the local repository, perform a pull to the active directory
 
-    GitHub OAuth token should be stored in ./github_creds
-
     external file format is a valid json:
     { 
         "repo_name": "local_directory",
