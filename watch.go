@@ -78,7 +78,7 @@ func main() {
 
             repoPath := "repos/"+gitUser+"/"+repoName+"/branches/master"
             repoUrl := GITHUB_HOST + repoPath
-            fmt.Printf("repo url: %s\n", repoUrl)
+            //fmt.Printf("repo url: %s\n", repoUrl)
 
             branchReq, err := http.NewRequest("GET", repoUrl, nil)
             if err != nil {
