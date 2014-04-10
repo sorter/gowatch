@@ -23,6 +23,7 @@ import "bytes"
 import "encoding/json"
 import "io/ioutil"
 import "net/http"
+import _ "crypto/sha256"
 
 type RepoResponse struct {
     Commit struct {
