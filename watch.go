@@ -46,6 +46,7 @@ func main() {
     if tokenErr != nil {
         panic(tokenErr) // problem reading github OAuth token
     }
+    gitToken = gitToken[:len(gitToken)-1]
 
     // perform git auth
     if err != nil {
