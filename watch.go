@@ -40,6 +40,11 @@ func main() {
     repoFilePath := confdir + "repo_map.json"
     fileBuffer, err := ioutil.ReadFile(repoFilePath)
 
+    branch := os.Getenv("ENV")
+    if branch == "prod" {
+        branch = "master"
+    }
+
     token_path := confdir + "github_creds"
     gitToken, tokenErr := ioutil.ReadFile(token_path)
 
@@ -68,7 +73,7 @@ func main() {
     for gitUser, repoMap := range githubConfig {
         for repoName, activeDir := range repoMap {
             // determine the local commit hash
-            masterHashPath := activeDir +"/.git/refs/heads/master"
+            masterHashPath := activeDir +"/.git/refs/heads/" + branch
             masterHashBuffer, masterError := ioutil.ReadFile(masterHashPath)
             var localHash string
             if masterError == nil {
@@ -78,7 +83,7 @@ func main() {
                 panic(masterError)
             }
 
-            repoPath := "repos/"+gitUser+"/"+repoName+"/branches/master"
+            repoPath := "repos/"+gitUser+"/"+repoName+"/branches/" + branch
             repoUrl := GITHUB_HOST + repoPath
             //fmt.Printf("repo url: %s\n", repoUrl)
 
@@ -106,7 +111,7 @@ func main() {
                     panic(err)
                 }
                 var out bytes.Buffer
-                pullCmd := exec.Command("ssh-agent", "/bin/sh", "-c", "ssh-add "+ home+"/.ssh/gowatch_id_rsa; git pull origin master")
+                pullCmd := exec.Command("ssh-agent", "/bin/sh", "-c", "ssh-add "+ home+"/.ssh/gowatch_id_rsa; git pull origin " + branch)
                 fmt.Println(pullCmd)
                 pullCmd.Stdout = &out
                 err = pullCmd.Run()
